@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>My Galgame</title>
+  <link rel="stylesheet" href="/web/css/media.css">
+  <link rel="stylesheet" href="/web/css/common.css">
+</head>
+
+<script type="module" src="/index.ts"></script>
+
+<body data-spa="wrapper">
+
+  <!-- <script type="module" src="./app/components/topTrans.js"></script>
+  <top-trans></top-trans> -->
+
+  <script type="module" src="./src/components/global/GlobalElement.ts"></script>
+  <global-element></global-element>
+
+  <div class="innerBody">
+    <main data-spa="container" data-spa-namespace="entry">
+
+      <script type="module">
+
+        // import * as nuiBase from 'nuiBase';
+        // nuiBase.changeUrl('/app/home.html');
+
+      </script>
+
+    </main>
+  </div>
+
+  <!-- <script type="module" src="./app/components/exitConfirm.js"></script>
+  <exit-confirm></exit-confirm> -->
+
+</body>
+
+</html>
