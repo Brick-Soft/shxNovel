@@ -13,9 +13,6 @@
 
 <body data-spa="wrapper">
 
-  <!-- <script type="module" src="./app/components/topTrans.js"></script>
-  <top-trans></top-trans> -->
-
   <script type="module" src="./src/components/global/GlobalElement.ts"></script>
   <global-element></global-element>
 
@@ -24,8 +21,8 @@
 
       <script type="module">
 
-        // import * as nuiBase from 'nuiBase';
-        // nuiBase.changeUrl('/app/home.html');
+        import { changeUrl } from './src/lib/core.ts';
+        changeUrl('/src/home.html');
 
       </script>
 

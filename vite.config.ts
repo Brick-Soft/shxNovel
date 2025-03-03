@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite';
+import { glob } from 'glob';
+
 import typescript from '@rollup/plugin-typescript';
 import { compileLitTemplates } from '@lit-labs/compiler';
 
-// @ts-expect-error process is a nodejs global
+// process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 // https://vitejs.dev/config/
-export default defineConfig(async () => ({
+export default defineConfig({
     // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
     //
     // 1. prevent vite from obscuring rust errors
@@ -28,8 +30,15 @@ export default defineConfig(async () => ({
             ignored: ['**/src-tauri/**'],
         },
     },
+    envPrefix: ['VITE_', 'TAURI_ENV_*'],
     build: {
+        target: 'esnext',
+
+        minify: !process.env.TAURI_ENV_DEBUG ? 'esbuild' : false,
+        sourcemap: !!process.env.TAURI_ENV_DEBUG,
+
         rollupOptions: {
+            input: ['index.html', ...glob.sync('src/**/*.html')],
             plugins: [
                 typescript({
                     transformers: {
@@ -39,4 +48,4 @@ export default defineConfig(async () => ({
             ],
         },
     },
-}));
+});

@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "target": "ES2020",
-        // "useDefineForClassFields": true,
         "module": "ESNext",
         "lib": ["ES2021", "DOM", "DOM.Iterable"],
         "skipLibCheck": true,
@@ -14,7 +13,7 @@
         "noEmit": true,
 
         /* Linting */
-        "strict": true,
+        "strict": false,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,

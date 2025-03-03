@@ -1,0 +1,119 @@
+import barba from '@barba/core';
+import { createTimeline } from '@juliangarnierorg/anime-beta';
+
+const myHackClassName = 'thisIsMygoInsteadOfAve_mujica';
+
+//
+// Note:
+//   This file can be imported after `nuiBase.initSPA();`
+//   But lets call it before, both ok!
+//
+
+// See https://barba.js.org/docs/advanced/hooks/
+// call same hooks behaves like a queue, will NOT overload
+
+barba.hooks.afterLeave((data) => {
+    const Styles = data.current.container.querySelectorAll('style');
+    for (const style of Styles) {
+        style.remove();
+    }
+    // data.current.container.remove();
+});
+
+barba.hooks.beforeEnter((data) => {
+    const htmlString = data.next.html;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+
+    // FOUC (Flash of unstyled content)
+    data.next.container.style.opacity = 0;
+
+    // [clear] head
+    const beforeModule = document.querySelectorAll(`head .${myHackClassName}`);
+    for (const eL of beforeModule) {
+        eL.remove();
+    }
+
+    // [start] inject
+    const fragment = new DocumentFragment();
+
+    /// process head style( only link )
+    const headStyles = doc.querySelectorAll('head link[rel=stylesheet]');
+
+    for (const style of headStyles) {
+        if (style.className === myHackClassName) {
+            continue;
+        }
+        const one = document.createElement('link');
+        const href = style.getAttribute('href');
+        one.href = href;
+        one.rel = 'stylesheet';
+        one.classList.add(myHackClassName);
+        fragment.appendChild(one);
+    }
+
+    /// process container style
+    const containerStyles = data.next.container.querySelectorAll('style');
+    for (const style of containerStyles) {
+        if (style.className === myHackClassName) {
+            continue;
+        }
+        const one = document.createElement('style');
+        one.textContent = style.textContent;
+        one.classList.add(myHackClassName);
+        fragment.appendChild(one);
+    }
+
+    /// process head script (only module)
+    const headScripts = doc.querySelectorAll('head script[type="module"]');
+
+    for (const script of headScripts) {
+        if (script.className === myHackClassName) {
+            continue;
+        }
+        const one = document.createElement('script');
+
+        if (script.hasAttribute('src')) {
+            const src = script.getAttribute('src');
+            if (src.includes('@vite')) {
+                continue;
+            } // skip src="/@vite/client"
+            one.src = src;
+        } else {
+            one.textContent = script.textContent;
+        }
+
+        one.type = 'module';
+        one.className = myHackClassName;
+        fragment.appendChild(one);
+    }
+
+    /// process container script
+    let js = data.next.container.querySelectorAll('main script');
+    for (const script of js) {
+        const one = document.createElement('script');
+
+        if (script.hasAttribute('src')) {
+            if (VITE_HMR_DEBUG !== 1) continue;
+
+            const src = script.getAttribute('src');
+            if (src.includes('@vite')) {
+                continue;
+            } // skip src="/@vite/client"
+            one.src = src;
+            one.type = 'module';
+        } else {
+            // module will be raised by vite
+            // only confronted with non-module
+            one.textContent = script.textContent;
+        }
+
+        one.className = myHackClassName;
+        fragment.appendChild(one);
+    }
+
+    // [finish] inejction
+    document.head.appendChild(fragment);
+});
+
+barba.hooks.afterEnter((data) => {});
