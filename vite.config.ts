@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
+
 import { glob } from 'glob';
+import { resolve, dirname, basename, normalize } from 'path';
 
 import typescript from '@rollup/plugin-typescript';
 import { compileLitTemplates } from '@lit-labs/compiler';

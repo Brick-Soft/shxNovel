@@ -1,5 +1,5 @@
-import { engine, createSpring, createTimeline } from 'animejs';
-import * as nuiBase from 'nuiBase';
+import { engine, createSpring, createTimeline } from '@juliangarnierorg/anime-beta';
+import { changeUrl } from '../../lib/core';
 
 var textWrapper = document.querySelector('.ml9 .letters');
 textWrapper.innerHTML = textWrapper.textContent.replace(
@@ -13,7 +13,7 @@ const tl = createTimeline({
         duration: 800,
     },
     onComplete: () => {
-        nuiBase.changeUrl('/app/home.html');
+        changeUrl('/src/home.html');
     },
 });
 

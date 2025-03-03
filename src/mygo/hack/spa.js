@@ -15,9 +15,12 @@ const myHackClassName = 'thisIsMygoInsteadOfAve_mujica';
 barba.hooks.afterLeave((data) => {
     const Styles = data.current.container.querySelectorAll('style');
     for (const style of Styles) {
+        // fix for <style>
         style.remove();
     }
-    // data.current.container.remove();
+
+    // fix for <link>
+    data.current.container.remove();
 });
 
 barba.hooks.beforeEnter((data) => {
