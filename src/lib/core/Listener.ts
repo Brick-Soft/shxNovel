@@ -9,13 +9,13 @@ class Listener {
         this.pool.push(fn);
     }
 
-    emit(...args) {
+    emit(...args: any[]) {
         for (let fn of this.pool) {
             fn(...args);
         }
     }
 
-    async emitAsync(...args) {
+    async emitAsync(...args: any[]) {
         for await (let fn of this.pool) {
             await fn(...args);
         }

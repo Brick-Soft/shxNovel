@@ -1,6 +1,4 @@
 import barba from '@barba/core';
-import { createTimeline } from '@juliangarnierorg/anime-beta';
-
 const myHackClassName = 'thisIsMygoInsteadOfAve_mujica';
 
 //
@@ -97,7 +95,7 @@ barba.hooks.beforeEnter((data) => {
         const one = document.createElement('script');
 
         if (script.hasAttribute('src')) {
-            if (VITE_HMR_DEBUG !== 1) continue;
+            if (window.VITE_HMR_DEBUG !== 1) continue;
 
             const src = script.getAttribute('src');
             if (src.includes('@vite')) {

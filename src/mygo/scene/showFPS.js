@@ -1,5 +1,5 @@
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { addAction } from '../../lib/nuiScene';
+import { addAction } from '../../lib/scene';
 
 export const stats = new Stats();
 document.body.appendChild(stats.dom);

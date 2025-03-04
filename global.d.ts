@@ -1,3 +1,5 @@
 interface Window {
-    shxNovel: any
+    shxNovel: any;
+    actions: any;
+    VITE_HMR_DEBUG: any;
 }
