@@ -23,6 +23,8 @@ window.addEventListener('resize', () => {
 });
 
 export type ResizeInfoType = {
+    width: number;
+    height: number;
     imarginTop: number;
     imarginLeft: number;
     iwidth: number;
@@ -30,6 +32,8 @@ export type ResizeInfoType = {
 };
 
 const resizeInfo: ResizeInfoType = {
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
     imarginTop: 0,
     imarginLeft: 0,
     iwidth: 0,
@@ -38,8 +42,8 @@ const resizeInfo: ResizeInfoType = {
 
 __solveResize();
 function __solveResize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
     const A = resolution.aspect;
 
     Object.assign(resizeInfo, { width, height });

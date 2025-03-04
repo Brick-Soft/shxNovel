@@ -1,9 +1,9 @@
 import { hookEvent, getMediaRotateSize, ResizeInfoType } from '../lib/core';
-import { rendSomeFrames, initDom, BunchCamera, renderer } from '../lib/scene';
+import { rendSomeFrames, initDom, cameraBunch, renderer } from '../lib/scene';
 
 initDom(document.querySelector('.innerBody'));
 
-const camera = BunchCamera.get('main');
+const camera = cameraBunch.get('main');
 
 camera.position.z = 512;
 camera.position.x = 0;

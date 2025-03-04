@@ -1,9 +1,9 @@
 import { WebGLRenderer } from 'three';
 import { engine } from '@juliangarnierorg/anime-beta';
-import { actions, callActions } from './actions';
 
-import { BunchScene } from './BunchScene';
-import { BunchCamera } from './BunchCamera';
+import { actions, callActions } from './actions';
+import { sceneBunch } from './sceneBunch';
+import { cameraBunch } from './cameraBunch';
 
 const width = document.documentElement.clientWidth;
 const height = document.documentElement.clientHeight;
@@ -67,7 +67,7 @@ export let renderLoop = () => {
 
         /** main-scene */
         renderer.setRenderTarget(null);
-        renderer.render(BunchScene.get('main'), BunchCamera.get('main'));
+        renderer.render(sceneBunch.get('main'), cameraBunch.get('main'));
 
         /**
          * @todo

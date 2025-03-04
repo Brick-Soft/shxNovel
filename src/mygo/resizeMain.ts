@@ -1,4 +1,4 @@
-import * as nuiBase from '../lib/core';
+import * as core from '../lib/core';
 
 //
 // Note:
@@ -18,21 +18,16 @@ const W = 1920,
     H = 1080,
     A = W / H;
 
-solveResize(nuiBase.getMediaRotateSize());
+solveResize(core.getMediaRotateSize());
 window.addEventListener('DOMContentLoaded', () => {
-    solveResize(nuiBase.getMediaRotateSize());
+    solveResize(core.getMediaRotateSize());
 });
 
-nuiBase.hookEvent('resize', (data) => {
+core.hookEvent('resize', (data: core.ResizeInfoType) => {
     solveResize(data);
 });
 
-function solveResize(data) {
-    const orientation =
-        (screen.orientation || {}).type ||
-        screen.mozOrientation ||
-        screen.msOrientation;
-
+function solveResize(data: core.ResizeInfoType) {
     const { width, height, imarginTop, imarginLeft, iwidth, iheight } = data;
     const rootStyle = document.documentElement.style;
     const bodyStyle = document.getElementsByTagName('body')[0].style;
@@ -65,10 +60,6 @@ function solveResize(data) {
     rootStyle.setProperty('--var-iwidth', `${iwidth}px`);
     rootStyle.setProperty('--var-iheight', `${iheight}px`);
     rootStyle.setProperty('font-size', `${(16 * iwidth) / 1920}px`);
-}
-
-if (import.meta.hot) {
-    import.meta.hot.accept((mod) => mod.render());
 }
 
 export { solveResize };

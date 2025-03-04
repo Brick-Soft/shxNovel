@@ -25,13 +25,13 @@
 /**
  * Used to indicate whether the `RenderLoop` needs to render.
  */
-type Action = ActionCallback | Boolean;
+export type Action = ActionCallback | Boolean;
 
 /**
  * If it's impossible to determine in advance whether rendering is needed. \
  * Using {@link ActionCallback}.
  */
-type ActionCallback = () => Boolean;
+export type ActionCallback = () => Boolean;
 
 export const actions: Map<Number, Action> = new Map();
 window.actions = actions;

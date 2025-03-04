@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { customElement, property } from 'lit/decorators.js';
 
-import * as nuiBase from '../../lib/core';
+import { tryExitGame, changeUrl } from '../../lib/core';
 
 // import { nuiConfig, nuiCache, resetCache, stroyBus } from '../lib/nuiData.js';
 
@@ -21,7 +21,7 @@ const typeCB = {
         // await loadData();
     },
     exitGame: async () => {
-        await nuiBase.tryExitGame();
+        await tryExitGame();
     },
 };
 
@@ -141,7 +141,7 @@ export class HomeBtn extends LitElement {
     }
 
     _goto(e) {
-        this.href ? nuiBase.changeUrl(this.href) : nothing;
+        this.href ? changeUrl(this.href) : nothing;
     }
 
     render() {
@@ -152,5 +152,11 @@ export class HomeBtn extends LitElement {
                 <a class="btn" @click="${this._solve}"> ${this.text} </a>
             </div>
         `;
+    }
+}
+
+declare global {
+    interface HTMLElementTagNameMap {
+        'home-btn': HomeBtn;
     }
 }
