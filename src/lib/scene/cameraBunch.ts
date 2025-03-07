@@ -1,12 +1,22 @@
-import { Camera, OrthographicCamera } from 'three';
+import { PerspectiveCamera, OrthographicCamera } from 'three';
 
-class CameraBunch extends Map<string, OrthographicCamera> {
-    toJson() {
+type TCamera = PerspectiveCamera | OrthographicCamera;
+type CameraBunchJson = Record<string, TCamera>;
+
+class CameraBunch extends Map<string, TCamera> {
+    toJson(): CameraBunchJson {
         const res = {};
         this.forEach((value, key) => {
             res[key] = value.toJSON();
         });
         return res;
+    }
+
+    remake(obj: CameraBunchJson) {
+        super.clear();
+        Object.entries(obj).forEach(([key, value]) => {
+            super.set(key, value);
+        });
     }
 }
 

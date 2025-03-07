@@ -24,8 +24,10 @@
        -  [ ] todo
 - [ ] Scene with **Three**
   - [ ] Render
-    - [ ] On-demand rendering
-    - [ ] Hookable Render Loop
+    - [x] On-demand rendering
+    - [x] Hookable Render Loop
+      - [x] timing-hook (before, on, after, main-renderer)
+      - [x] post-process (composer, pass)
   -  [ ] Scene Objects
      -  [ ] motion animation
      -  [ ] shader animation
@@ -70,13 +72,16 @@
 
 ## 下载与使用
 
-**下载** 请直接克隆储存库，随后安装依赖。
+### 下载
+
+克隆储存库，随后安装依赖。
+
 ```
 git clone
 npm i
 ```
 
-**使用** 运行
+**使用** 开发运行
 ```
 npx tauri dev
 ```
@@ -88,8 +93,8 @@ npx tauri dev
 * 页面元素主要使用 Web Component 标准，避免过度水合。
   * 原生语法，开发/学习成本较低，组件黑盒化。
   * 可以较低成本地引入现代流行框架。
-* 通过 Pjax 实现 SPA，按需分片加载，可以用本地 IO 降低加载负担。
-* 使用 Three.js，很好用，很难用。
+* 通过 Pjax 实现 SPA，按需分片加载，利用本地 IO 提速，同时降低内存负担。
+* 使用 Three.js，很好用（很难用）。
 
 在项目初期，我们目前处于 JavaScript 和 Typescript 的混合使用阶段。   
 * 我们使用 Typescript **不是**为了用类型体操换取健壮的提示，   
@@ -101,6 +106,7 @@ npx tauri dev
   * 使用 MIT License 进行许可。
 * 运行时 **(run-time)** 依赖以下开源项目：
   * [tauri](https://github.com/tauri-apps/tauri) Apache-2.0, MIT licenses
+  * [flatted](https://github.com/WebReflection/flatted) ISC license
   * [howler](https://github.com/goldfire/howler.js) MIT license
   * [barba](https://github.com/barbajs/barba) MIT license
   * [three](https://github.com/mrdoob/three.js) MIT license
@@ -120,4 +126,10 @@ npx tauri dev
 
 ### A
 
-由于我们依赖大量项目，因此健壮性更多地受到上游的影响，随着上游项目的完善，该项目也会不断增强。 
+由于 Three 的序列化并不容易使用，我们人为地修改了一些内置行为（以插件的形式）。   
+
+目前对 Three 的资产处理比较 naive，可能存在一些轻微的内存泄露，我们会在 release 前解决这一问题。
+
+### F
+
+由于我们依赖大量项目，因此健壮性更多地受到上游的影响，随着上游项目的完善，该项目也会不断增强。   

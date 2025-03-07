@@ -1,8 +1,8 @@
 import { Timeline } from '@juliangarnierorg/anime-beta';
 
-import { Action, addAction, rmvAction } from '../actions';
+import { Action, addAction, rmvAction, actions } from '../actions';
 import { rendSomeFrames } from '../renderLoop';
-import { ShxObject } from './shx';
+import { ShxObject } from 'types/shx';
 
 /**
  *
@@ -14,36 +14,47 @@ export function setAnime(item: ShxObject, anime: Timeline, cb: Action) {
 }
 
 /**
+ * Behaviour:
+ * 1. Always remove `runningID` from {@link actions}.
+ * 2. Always remove internal runningID and timeline.
  *
+ * Will not Stop the Timeline.
  */
 export function removeAnime(item: ShxObject) {
     const { runningID } = item.material.userData;
 
     rmvAction(runningID); // if not exist, its alright
     item.material.userData.runningID = 0;
+    item.material.userData.timeline = undefined;
     rendSomeFrames(); // unstable fix for loop diff
 }
 
 /**
+ * Behaviour:
+ * 1. Always remove `runningID` from {@link actions}.
+ * 2. **Only** if `runningID` match `item`, remove internal runningID and timeline.
  *
+ * Will not Stop the Timeline.
  */
 export function removeAnimeById(item: ShxObject, runningID: any) {
     rmvAction(runningID); // if not exist, its alright
-    if (runningID === item.material.userData.runningID)
+    if (runningID === item.material.userData.runningID) {
         item.material.userData.runningID = 0;
+        item.material.userData.timeline = undefined;
+    }
     rendSomeFrames(); // unstable fix for loop diff
 }
 
 /**
  * Try to halt the playing anime.
+ * Internal use {@link removeAnime}
  */
 export function haltCheck(item: ShxObject) {
     const { timeline } = item.material.userData;
     if (timeline instanceof Timeline) {
         if (!timeline.completed) timeline.complete();
-        this.specialAnime = undefined;
-        removeAnime(item);
     }
+    removeAnime(item);
 }
 
 /**
@@ -68,16 +79,4 @@ export function warpAnime(item: ShxObject, anime: Timeline, cb: Action) {
         // @ts-expect-error
         removeAnimeById(item, self._shxId); // rmv
     };
-}
-
-export function bindAnimeCtx(item: ShxObject) {
-    const ctx: Record<string, Function> = {
-        setAnime,
-        removeAnime,
-        removeAnimeById,
-        haltCheck,
-        warpAnime,
-    };
-    for (const key in ctx) ctx[key].bind(null, item);
-    return ctx;
 }

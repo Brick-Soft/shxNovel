@@ -9,8 +9,6 @@
   <link rel="stylesheet" href="/web/css/common.css">
 </head>
 
-<script type="module" src="/index.ts"></script>
-
 <body data-spa="wrapper">
 
   <script type="module" src="./src/components/global/GlobalElement.ts"></script>
@@ -22,7 +20,7 @@
       <script type="module">
 
         import { changeUrl } from './src/lib/core.ts';
-        await import('/index.ts'); // some fix
+        await import('/index.ts');
         changeUrl('/src/logo.html');
 
       </script>

@@ -1,12 +1,9 @@
-import { WebGLRenderer } from 'three';
 import { engine } from '@juliangarnierorg/anime-beta';
 
 import { actions, callActions } from './actions';
 import { sceneBunch } from './sceneBunch';
 import { cameraBunch } from './cameraBunch';
-
-const width = document.documentElement.clientWidth;
-const height = document.documentElement.clientHeight;
+import { mainRenderer } from './mainRenderer';
 
 /** internal counter */
 let _framesToRender = 0;
@@ -15,12 +12,12 @@ export function getFramesToRender() {
     return _framesToRender;
 }
 
-/** Make sure the final value is non-negative */
+/** You should make sure the final value is non-negative */
 export function _setFramesToRender(frames: number) {
     _framesToRender = frames;
 }
 
-/** Make sure the final value is non-negative */
+/** You should make sure the final value is non-negative */
 export function _addFramesToRender(frames: number = 5) {
     _framesToRender += frames;
 }
@@ -30,20 +27,35 @@ export function rendSomeFrames(cnt = 60) {
     _addFramesToRender(cnt);
 }
 
-/** default renderer */
-export const renderer = new WebGLRenderer({
-    // antialias: nuiConfig.scene.antialias,
-});
-
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(width, height);
-
 /** */
 
 engine.useDefaultMainLoop = false;
 
-export let renderLoop = () => {
+let mainRendererBehaviour = function () {
+    mainRenderer.setRenderTarget(null);
+    mainRenderer.render(sceneBunch.get('main'), cameraBunch.get('main'));
+};
+
+// maybe switch into some data-structure
+export let beforeMainRenderer: Function[] = [];
+export function rebuildBeforeMainRenderer(item) {
+    beforeMainRenderer = item;
+}
+
+export let afterMainRenderer: Function[] = [];
+export function rebuildAfterMainRenderer(item) {
+    afterMainRenderer = item;
+}
+
+let _internal_block_loop = false;
+export function setLoopBlock(stat = false) {
+    _internal_block_loop = stat;
+}
+
+let renderLoop = function () {
     engine.update();
+
+    if (_internal_block_loop) return;
 
     let flag = 0;
 
@@ -60,24 +72,32 @@ export let renderLoop = () => {
     }
 
     if (flag) {
-        /**
-         * @todo
-         * renderer event, for off-screen rendering
-         */
+        /** can be used for off-screen rendering  */
+        for (const fn of beforeMainRenderer) fn();
 
         /** main-scene */
-        renderer.setRenderTarget(null);
-        renderer.render(sceneBunch.get('main'), cameraBunch.get('main'));
+        mainRendererBehaviour();
 
-        /**
-         * @todo
-         * post effect
-         */
+        /** more post-processing ??? */
+        for (const fn of afterMainRenderer) fn();
     }
 };
 
-renderer.setAnimationLoop(renderLoop);
+mainRenderer.setAnimationLoop(renderLoop);
 
-export function setRenderLoop(loop: () => void) {
-    renderLoop = loop;
+/**
+ * Change default main-renderer-behaviour \
+ * Can be used for post-processing, using `EffectComposer` `xxxPass` ... \
+ * **Dont Call this function, unless you know what you are doing**
+ */
+export function setMainRendererBehaviour(fn: () => void) {
+    mainRendererBehaviour = fn;
+}
+
+/**
+ * Change the total render loop. \
+ * **Dont Call this function, unless you know what you are doing**
+ */
+export function setRenderLoop(fn: () => void) {
+    renderLoop = fn;
 }

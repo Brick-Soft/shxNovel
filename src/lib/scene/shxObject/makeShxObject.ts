@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { shxOptions } from '../../../config/shxOptions';
-import { ShxObject } from './shx';
+import { ShxObject, ShxObjectUserData } from 'types/shx';
 
 export function makeShxObject(texture: THREE.Texture): ShxObject {
     const material = new THREE.ShaderMaterial({
@@ -25,15 +25,17 @@ export function makeShxObject(texture: THREE.Texture): ShxObject {
 
         vertexShader: shxOptions.material.vertexShader[1],
         fragmentShader: shxOptions.material.fragmentShader[1],
-
-        userData: {
-            vertexShader: shxOptions.material.vertexShader[0],
-            fragmentShader: shxOptions.material.fragmentShader[0],
-
-            runningID: 0,
-            timeline: undefined,
-        },
     });
+
+    (material.userData as ShxObjectUserData) = {
+        type: 'shxObject',
+
+        vertexShader: shxOptions.material.vertexShader[0],
+        fragmentShader: shxOptions.material.fragmentShader[0],
+
+        runningID: 0,
+        timeline: undefined,
+    };
 
     const geometry = new THREE.PlaneGeometry(
         texture.image.width,
@@ -44,6 +46,6 @@ export function makeShxObject(texture: THREE.Texture): ShxObject {
 
     const mesh = new THREE.Mesh(geometry, material);
 
-    // @ts-expect-error: all-fine
+    // @ts-expect-error: (mesh as unknown as ShxObject);
     return mesh;
 }

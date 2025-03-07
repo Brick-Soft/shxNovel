@@ -1,14 +1,19 @@
+import { OrthographicCamera } from 'three';
 import { hookEvent, getMediaRotateSize, ResizeInfoType } from '../lib/core';
-import { rendSomeFrames, initDom, cameraBunch, renderer } from '../lib/scene';
+import {
+    rendSomeFrames,
+    initDom,
+    cameraBunch,
+    mainRenderer,
+} from '../lib/scene';
 
 initDom(document.querySelector('.innerBody'));
 
-const camera = cameraBunch.get('main');
+const _camera = cameraBunch.get('main') as OrthographicCamera;
+_camera.position.z = 512;
+_camera.position.x = 0;
 
-camera.position.z = 512;
-camera.position.x = 0;
-
-renderer.setClearColor(0x1e2226, 1);
+mainRenderer.setClearColor(0x1e2226, 1);
 
 resize(getMediaRotateSize());
 hookEvent('resize', (data: ResizeInfoType) => {
@@ -17,6 +22,8 @@ hookEvent('resize', (data: ResizeInfoType) => {
 });
 
 function resize(data: ResizeInfoType) {
+    const mainCamera = cameraBunch.get('main') as OrthographicCamera;
+
     const frustumSize = 1080;
     const { iwidth, iheight } = data;
 
@@ -35,11 +42,11 @@ function resize(data: ResizeInfoType) {
     const cw = frustumSize * aspect;
     const ch = frustumSize;
 
-    camera.left = cw / -2;
-    camera.right = cw / 2;
-    camera.top = ch / 2;
-    camera.bottom = ch / -2;
+    mainCamera.left = cw / -2;
+    mainCamera.right = cw / 2;
+    mainCamera.top = ch / 2;
+    mainCamera.bottom = ch / -2;
 
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
+    mainCamera.updateProjectionMatrix();
+    mainRenderer.setSize(w, h);
 }

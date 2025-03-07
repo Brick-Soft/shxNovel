@@ -2,6 +2,8 @@ import { Cache } from 'three';
 import { initSPA } from './src/lib/core';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 
+// make sure before any THREE operation
+// 
 Cache.enabled = true;
 
 // hack

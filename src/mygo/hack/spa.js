@@ -1,11 +1,14 @@
 import barba from '@barba/core';
 const myHackClassName = 'thisIsMygoInsteadOfAve_mujica';
 
-//
-// Note:
-//   This file can be imported after `nuiBase.initSPA();`
-//   But lets call it before, both ok!
-//
+/**
+ * Plugin `hack/spa` is an official plugin for dummy pjax behaviour.
+ * This manually invokes <script> <link> <style> indifferently.
+ *
+ * Note:
+ *   This file can be imported after `initSPA();`
+ *   But lets call it before, both ok!
+ */
 
 // See https://barba.js.org/docs/advanced/hooks/
 // call same hooks behaves like a queue, will NOT overload
@@ -38,7 +41,7 @@ barba.hooks.beforeEnter((data) => {
     // [start] inject
     const fragment = new DocumentFragment();
 
-    /// process head style( only link )
+    /// process head style ( only link )
     const headStyles = doc.querySelectorAll('head link[rel=stylesheet]');
 
     for (const style of headStyles) {
@@ -65,7 +68,7 @@ barba.hooks.beforeEnter((data) => {
         fragment.appendChild(one);
     }
 
-    /// process head script (only module)
+    /// process head script ( only module )
     const headScripts = doc.querySelectorAll('head script[type="module"]');
 
     for (const script of headScripts) {

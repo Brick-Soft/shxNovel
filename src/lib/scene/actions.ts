@@ -22,18 +22,20 @@
  * @module Actions
  */
 
+import { isFunction } from '@lib/core/typeCheck';
+
 /**
  * Used to indicate whether the `RenderLoop` needs to render.
  */
-export type Action = ActionCallback | Boolean;
+export type Action = ActionCallback | boolean;
 
 /**
  * If it's impossible to determine in advance whether rendering is needed. \
  * Using {@link ActionCallback}.
  */
-export type ActionCallback = () => Boolean;
+export type ActionCallback = () => boolean;
 
-export const actions: Map<Number, Action> = new Map();
+export const actions: Map<number, Action> = new Map();
 window.actions = actions;
 
 /** internal couter */
@@ -57,10 +59,10 @@ export function rmvAction(thisActionsUUID: any | number) {
     return actions.delete(thisActionsUUID);
 }
 
-export function callActions() {
-    const result = [];
+export function callActions(): boolean[] {
+    const result: boolean[] = [];
     actions.forEach((value, key) => {
-        if (value instanceof Function) {
+        if (isFunction(value)) {
             result.push(value());
         } else {
             result.push(value);
