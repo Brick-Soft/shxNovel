@@ -1,5 +1,7 @@
-import { isFunction, isObject } from '@lib/core/typeCheck';
+import { isFunction, isObject } from '@/lib/core/typeCheck';
 import { ShxCollections } from '../Shx';
+import { dispose as MeshDispose } from '../THREE/dispose/Mesh';
+import { Mesh, Object3D } from 'three';
 
 /**
  * @todo
@@ -15,7 +17,7 @@ export class ShxDisposer {
                 this.dispose(child);
             }
 
-            // clear child Ref
+            // clear child references
             if (isFunction(item.clear)) {
                 item.clear();
             }
@@ -29,14 +31,26 @@ export class ShxDisposer {
             typeof item.userData.type === 'string' &&
             item.userData.type in ShxCollections
         ) {
-            ShxCollections[item.userData.type].dispose(item);
-            return; 
+            ShxCollections[item.userData.type]?.dispose(item);
+            return;
         }
 
         /**
          * else if THREE item
          * @todo
          */
+        if (!(item instanceof Object3D)) return;
+
+        const type = item.type;
+
+        switch (type) {
+            case 'Mesh':
+                MeshDispose(item as unknown as Mesh, true);
+                break;
+
+            default:
+                break;
+        }
     }
 }
 

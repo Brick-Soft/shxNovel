@@ -1,7 +1,7 @@
 import { Timeline } from '@juliangarnierorg/anime-beta';
 
-import { Action, addAction, rmvAction, actions } from '../actions';
-import { rendSomeFrames } from '../renderLoop';
+import { Action, addAction, rmvAction, actions } from '../../actions';
+import { rendSomeFrames } from '../../renderLoop';
 import { ShxObject } from 'types/shx';
 
 /**
@@ -60,7 +60,7 @@ export function haltCheck(item: ShxObject) {
 /**
  * Warp given anime (for on-demand-render).
  */
-export function warpAnime(item: ShxObject, anime: Timeline, cb: Action) {
+export function wrapAnime(item: ShxObject, anime: Timeline, cb: Action) {
     const userOnBegin = anime.onBegin;
     anime.onBegin = (self) => {
         haltCheck(item);

@@ -1,87 +1,91 @@
+import { isObject } from './typeCheck';
+
 /**
- * A Map records <string, object>.
+ * A Map records <string, V>.
  * Supports reverse lookup.
  */
-export class BidirectionalMap {
+export class BidirectionalMap<V extends object> {
+    keyToObj: Map<string, V>;
+    objToKey: WeakMap<V, string>;
+
     constructor() {
-        /** @type {Map<string, object>} */
         this.keyToObj = new Map();
 
-        /** @type {WeakMap<object, string>} */
+        this.objToKey = new WeakMap();
+    }
+
+    clear() {
+        this.keyToObj.clear();
         this.objToKey = new WeakMap();
     }
 
     /**
-     * @param {string} key
-     * @param {object} value
+     * **[Warn]** Due to the replacement,   \
+     * Be cautious of memory leaks (especially on the GPU). \
+     * And ensure that the <K,V> before replacement do not cause any leaks.
      */
-    set(key, value) {
-        if (typeof key !== 'string') {
-            throw new TypeError('Key must be a string');
-        }
-
-        if (typeof value !== 'object' || value === null) {
-            throw new TypeError('Value must be a non-null object');
-        }
-        this.forceSet(key, value);
+    set(key: string, value: V) {
+        let result = this._clean(key, value);
+        this._set(key, value);
+        return result;
     }
 
-    /**
-     * @param {string} key
-     * @param {object} value
-     */
-    forceSet(key, value) {
-        this.__clean(key, value);
-        this.__set(key, value);
-    }
-
-    __clean(newKey, newValue) {
+    _clean(newKey: string, newValue: V) {
         const oldValue = this.keyToObj.get(newKey);
         if (oldValue) this.objToKey.delete(oldValue);
 
         const oldKey = this.objToKey.get(newValue);
         if (oldKey) this.keyToObj.delete(oldKey);
+
+        return oldValue;
     }
 
-    __set(key, value) {
+    _set(key: string, value: V) {
         this.keyToObj.set(key, value);
         this.objToKey.set(value, key);
     }
 
     /** @param {string} key  */
-    getByKey(key) {
+    getByKey(key: string) {
         return this.keyToObj.get(key);
     }
 
-    /** @param {object} value  */
-    getKeyByValue(value) {
+    /** @param {V} value  */
+    getKeyByValue(value: V) {
         return this.objToKey.get(value);
     }
 
     /** @param {string} key  */
-    deleteByKey(key) {
+    deleteByKey(key: string) {
         const value = this.keyToObj.get(key);
         if (value) {
             this.keyToObj.delete(key);
             this.objToKey.delete(value);
-            return true;
+            return value;
         }
         return false;
     }
 
-    /** @param {object} value  */
-    deleteByValue(value) {
+    /** @param {V} value  */
+    deleteByValue(value: V) {
         const key = this.objToKey.get(value);
         if (key) {
             this.objToKey.delete(value);
             this.keyToObj.delete(key);
-            return true;
+            return value;
         }
         return false;
     }
 
     entries() {
         return Array.from(this.keyToObj.entries());
+    }
+
+    forEach(
+        callbackfn: (value: V, key: string, map: Map<string, V>) => void,
+        thisArg?: any
+    ) {
+        return this.keyToObj.forEach(callbackfn, thisArg);
     }
 
     get size() {

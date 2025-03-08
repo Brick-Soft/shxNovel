@@ -6,9 +6,9 @@ import {
     Timeline,
 } from '@juliangarnierorg/anime-beta';
 
-import { ShxObject } from '../../../../types/shx';
-import { Action } from '../actions';
-import * as Tool from './ShxAnimeTool';
+import { ShxObject } from 'types/shx';
+import { Action } from '../../actions';
+import * as Tool from './animeUtils';
 
 
 type AnimeArgs = {

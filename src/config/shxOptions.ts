@@ -4,21 +4,10 @@ import { vertexs } from './vertexs';
 
 /** Default Warpped Mesh Options */
 export const shxOptions = {
-    //
-    // For persistence
-    // [+] If you want some attributes to be persisted
-    //     these attributes must appear at here
-    //
-
     material: {
         vertexShader: ['default', vertexs.default],
         fragmentShader: ['default', fragments.default],
 
-        /**
-         * Uniforms is the exception.        \
-         * All uniforms will be persisted.   \
-         * Whether or not listed in config.
-         */
         uniforms: {
             swipe: { value: 0 },
             width: { value: 0 },

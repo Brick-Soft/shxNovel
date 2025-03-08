@@ -1,11 +1,15 @@
 /**
  * Compare with `a` and `b`.
  * Handled circular references.
- * @param {any} a
- * @param {any} b
+ * @param {unknown} a
+ * @param {unknown} b
  * @returns {boolean}
  */
-export function deepEqual(a, b, seen = new WeakSet()) {
+export function deepEqual(
+    a: unknown,
+    b: unknown,
+    seen = new WeakSet()
+): boolean {
     // If both are the same reference, return true
     if (a === b) return true;
 
@@ -46,11 +50,11 @@ export function deepEqual(a, b, seen = new WeakSet()) {
 /**
  * NOT Handled Circular References.
  * Compare with `a` and `b`
- * @param {any} a
- * @param {any} b
+ * @param {unknown} a
+ * @param {unknown} b
  * @returns {boolean}
  */
-export function deepEqualNR(a, b) {
+export function deepEqualNR(a: unknown, b: unknown): boolean {
     // If both are the same reference, return true
     if (a === b) return true;
 
@@ -73,7 +77,7 @@ export function deepEqualNR(a, b) {
 
     // Check each key in A to see if it exists in B and if the values are equal
     for (let key of keysA) {
-        if (!keysB.includes(key) || !deepEqual(a[key], b[key])) {
+        if (!keysB.includes(key) || !deepEqualNR(a[key], b[key])) {
             return false;
         }
     }

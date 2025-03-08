@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { shxOptions } from '../../../config/shxOptions';
+import { shxOptions } from '@/config/shxOptions';
 import { ShxObject, ShxObjectUserData } from 'types/shx';
 
-export function makeShxObject(texture: THREE.Texture): ShxObject {
+export function make(texture: THREE.Texture): ShxObject {
     const material = new THREE.ShaderMaterial({
         extensions: {
             // @ts-expect-error: they remove this ......
@@ -46,6 +46,5 @@ export function makeShxObject(texture: THREE.Texture): ShxObject {
 
     const mesh = new THREE.Mesh(geometry, material);
 
-    // @ts-expect-error: (mesh as unknown as ShxObject);
     return mesh;
 }

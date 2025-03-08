@@ -20,8 +20,5 @@ class SceneBunch extends Map<string, Scene> {
 }
 export const sceneBunch = new SceneBunch();
 
-const width = document.documentElement.clientWidth;
-const height = document.documentElement.clientHeight;
-
 const scene = new Scene();
 sceneBunch.set('main', scene);

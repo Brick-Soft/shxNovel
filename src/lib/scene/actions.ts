@@ -22,7 +22,7 @@
  * @module Actions
  */
 
-import { isFunction } from '@lib/core/typeCheck';
+import { isFunction } from '@/lib/core/typeCheck';
 
 /**
  * Used to indicate whether the `RenderLoop` needs to render.

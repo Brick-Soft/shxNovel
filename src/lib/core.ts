@@ -6,8 +6,8 @@ export * from './core/MListener.js';
 import './core/basicResize';
 export * from './core/basicResize';
 
-import './core/basicSpa';
-export * from './core/basicSpa';
+import './core/basicSPA';
+export * from './core/basicSPA';
 
 import './core/basicExit';
 export * from './core/basicExit';

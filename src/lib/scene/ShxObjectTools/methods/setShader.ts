@@ -1,9 +1,9 @@
-import { shxOptions } from '@config/shxOptions';
-import { fragments } from '@config/fragments';
-import { vertexs } from '@config/vertexs';
+import { shxOptions } from '@/config/shxOptions';
+import { fragments } from '@/config/fragments';
+import { vertexs } from '@/config/vertexs';
 import { ShxObject } from 'types/shx';
 
-export function setShxFragmentShader(
+export function setFragmentShader(
     item: ShxObject,
     name = shxOptions.material.fragmentShader[0]
 ) {
@@ -17,7 +17,7 @@ export function setShxFragmentShader(
     item.material.needsUpdate = true;
 }
 
-export function setShxVertexShader(
+export function setVertexShader(
     item: ShxObject,
     name = shxOptions.material.vertexShader[0]
 ) {

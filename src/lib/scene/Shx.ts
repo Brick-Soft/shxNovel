@@ -1,16 +1,25 @@
-export * from './shxObject/disposeShxObject';
-export * from './shxObject/makeShxAnime';
-export * from './shxObject/makeShxObject';
-export * from './shxObject/setShxShader';
-export * from './shxObject/ShxAnimeTool';
+export * as ShxObjectTools from './ShxObjectTools/ShxObjectTools';
+export * as ShxSceneTools from './ShxSceneTools/ShxSceneTools';
 
-import { disposeShxObject } from './shxObject/disposeShxObject';
-import { makeShxObject } from './shxObject/makeShxObject';
+export * from './ShxVisitor/ShxDisposer';
+
+/**
+ *
+ */
+
+import * as ShxObjectTools from './ShxObjectTools/ShxObjectTools';
+import * as ShxSceneTools from './ShxSceneTools/ShxSceneTools';
 
 export const ShxCollections = {
     shxObject: {
-        make: makeShxObject,
-        dispose: disposeShxObject,
+        make: ShxObjectTools.make,
+        dispose: ShxObjectTools.dispose,
+        fetchTexture: ShxObjectTools.fetchTexture,
+    },
+    shxScene: {
+        make: ShxSceneTools.make,
+        dispatchEvent: ShxSceneTools.dispose,
+        fetchTexture: ShxSceneTools.fetchTexture,
     },
 };
 
