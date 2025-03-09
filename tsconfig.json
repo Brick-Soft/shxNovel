@@ -20,12 +20,13 @@
 
         /* Lit */
         "experimentalDecorators": true, // default for TypeScript 5.0 and up
-        "useDefineForClassFields": true, // default when "target" is "ES2022" or higher
+        "useDefineForClassFields": false, // default when "target" is "ES2022" or higher
 
         "baseUrl": ".",
         "paths": {
-            "/*": ["./public/*"],
-            "@/*": ["./src/*"]
+            "@barba/core": ["./node_modules/@barba/core/dist/core/src/src/"],
+            "@/*": ["./src/*"],
+            "/*": ["./public/*"]
         }
     },
     "include": ["src", "./types/*"]

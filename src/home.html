@@ -7,48 +7,53 @@
 	<title>Home</title>
 </head>
 
-<body data-spa="wrapper">
+<body>
 
 	<script type="module" src="./components/global/GlobalElement.ts"></script>
 	<global-element></global-element>
 
-	<main data-spa="container" data-spa-namespace="home">
+	<div class="innerBody" data-spa="wrapper">
 
-		<script type="module" src="./components/home/HomeButton.ts"></script>
+		<main data-spa="container" data-spa-namespace="home">
 
-		<div class="buttonList">
-			<home-btn href="/app/logo.html" action="coninueGame">继续游戏</home-btn>
-			<home-btn href="./galgame.html" action="newGame">从头开始</home-btn>
-			<home-btn href="./save.html">游戏存档</home-btn>
-			<home-btn href="./gallery.html">鉴赏系统</home-btn>
-			<home-btn href="./options.html">选项菜单</home-btn>
-			<home-btn action="exitGame">结束游戏</home-btn>
-		</div>
+			<script type="module" src="./components/home/HomeButton.ts"></script>
 
-		<div class="version"><a href="./about.html">v0.4.0</a></div>
+			<div class="buttonList">
+				<home-btn href="/app/logo.html" action="coninueGame">继续游戏</home-btn>
+				<home-btn href="./galgame.html" action="newGame">从头开始</home-btn>
+				<home-btn href="./save.html">游戏存档</home-btn>
+				<home-btn href="./gallery.html">鉴赏系统</home-btn>
+				<home-btn href="./options.html">选项菜单</home-btn>
+				<home-btn action="exitGame">结束游戏</home-btn>
+			</div>
 
-		<style>
-			.buttonList {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				background-color: #ffffffee;
-				padding: 0rem 5rem;
-			}
+			<div class="version"><a href="./about.html">v0.4.0</a></div>
 
-			.version {
-				float: right;
-				position: absolute;
-				right: 1rem;
-				top: 1rem;
-				font-size: 1.5rem;
-				background: #9e9e9e4d;
-				padding: 0.5rem;
-				border-radius: 1rem;
-			}
-		</style>
+			<style>
+				.buttonList {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					background-color: #ffffffee;
+					padding: 0rem 5rem;
+				}
 
-	</main>
+				.version {
+					float: right;
+					position: absolute;
+					right: 1rem;
+					top: 1rem;
+					font-size: 1.5rem;
+					background: #9e9e9e4d;
+					padding: 0.5rem;
+					border-radius: 1rem;
+				}
+			</style>
+
+		</main>
+
+	</div>
+
 </body>
 
 </html>

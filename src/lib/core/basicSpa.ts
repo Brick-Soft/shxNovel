@@ -1,4 +1,5 @@
 import barba from '@barba/core';
+import { ITransitionPage, IView } from '@barba/core/dist/core/src/src/defs';
 
 const pageView = [];
 const pageTransition = [];
@@ -8,27 +9,25 @@ export let _internal_block_spa = false;
 // import barbaPrefetch from '@barba/prefetch';
 // barba.use(barbaPrefetch);
 
-/** @param {Object | String} data */
-export function prefetch(data) {
+export function prefetch(data: String) {
     let href = undefined;
-    if (data instanceof String) {
+
+    if (typeof data === 'string') {
         href = data;
-    } else if (data instanceof Object) {
-        href = data?.next?.url?.href;
     }
 
     barba.prefetch(href);
 }
 
-export function regView(obj) {
+export function regView(obj: IView | IView[]) {
     if (Array.isArray(obj)) {
         pageView.push(...obj);
-        return;
+    } else {
+        pageView.push(obj);
     }
-    pageView.push(obj);
 }
 
-export function regTransition(obj) {
+export function regTransition(obj: ITransitionPage | ITransitionPage[]) {
     if (Array.isArray(obj)) {
         pageTransition.push(...obj);
         return;
@@ -50,27 +49,19 @@ export function setSPAInternalBlock(status = true) {
     _internal_block_spa = status;
 }
 
-/**
- * @param {string} url
- * @param {null | Function} [cb=null]
- */
-export function changeUrl(url, cb = null) {
+export function changeUrl(url: string, cb: Function = null): void {
     if (_internal_block_spa) return;
     if (cb instanceof Function) cb();
     barba.go(url);
 }
 
-/**
- * @param {string} url
- * @param {null | Function} [f=null]
- */
 export async function changeUrlAsync(url, f = null) {
     if (_internal_block_spa) return;
     if (f instanceof Function) await f();
     barba.go(url);
 }
 
-export function prefetchUrl(url) {
+export function prefetchUrl(url: string) {
     barba.prefetch(url);
 }
 

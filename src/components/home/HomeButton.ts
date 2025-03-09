@@ -27,13 +27,6 @@ const typeCB = {
 
 @customElement('home-btn')
 export class HomeBtn extends LitElement {
-    // static properties = {
-    //     display: {},
-    //     text: {},
-    //     href: {},
-    //     action: {},
-    // };
-
     @property({ type: Boolean })
     display?: boolean;
 

@@ -1,30 +1,26 @@
 import * as THREE from 'three';
 
-import { scene, camera, renderer, textureCache } from '../../lib/nuiScene.js';
-import { ShxObject } from '../../lib/nuiScene/ShxObject.js';
+import { sceneBunch } from '@/lib/scene';
 
-import { waitImgPreloaded } from '../imgPreload.js';
-// import { GLTFExporter, GLTFLoader, GLTFParser } from 'three/examples/jsm/Addons.js';
+// import { scene, camera, renderer, textureCache } from '../../lib/nuiScene.js';
+// import { ShxObject } from '../../lib/nuiScene/ShxObject.js';
 
-waitImgPreloaded().then((textures) => {
-    for (const texture of textures) {
-        renderer.initTexture(texture);
-    }
-});
+// import { waitImgPreloaded } from '../imgPreload.js';
+// // import { GLTFExporter, GLTFLoader, GLTFParser } from 'three/examples/jsm/Addons.js';
 
-const __textute = await textureCache.load('/background/default.png');
-const background = new ShxObject(__textute);
-scene.add('background', background); // remind this, lol
+// waitImgPreloaded().then((textures) => {
+//     for (const texture of textures) {
+//         renderer.initTexture(texture);
+//     }
+// });
 
-window.background = background;
-window.scene = scene;
-window.textureCache = textureCache;
+// const __textute = await textureCache.load('/background/default.png');
+// const background = new ShxObject(__textute);
+// scene.add('background', background); // remind this, lol
 
-const loader = new THREE.ObjectLoader();
-window.loader = loader;
+// window.background = background;
+// window.scene = scene;
+// window.textureCache = textureCache;
 
-// const exporter = new GLTFExporter();
-// window.exporter = exporter;
-
-// const loader = new GLTFLoader()
+// const loader = new THREE.ObjectLoader();
 // window.loader = loader;

@@ -46,7 +46,7 @@ export class HotFix extends LitElement {
             // idk
         }
 
-        return html`<div class=${classMap(classes)}>12112121212</div>`;
+        return html`<div class=${classMap(classes)}></div>`;
     }
 }
 

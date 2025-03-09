@@ -9,25 +9,42 @@
   <link rel="stylesheet" href="/web/css/common.css">
 </head>
 
-<body data-spa="wrapper">
+<script type="module" src="/index.ts"></script>
+
+<body>
+
+  <div class="innerBody" data-spa="wrapper">
+
+    <!-- 
+        put here content that will not change
+        between your pages, like <header> or <nav>
+    -->
+
+    <main data-spa="container" data-spa-namespace="entry">
+
+      <!-- put here the content you wish to change
+           between your pages, like your main content <h1> or <p> 
+      -->
+
+    </main>
+
+    <!-- 
+        put here content that will not change
+        between your pages, like <header> or <nav>
+    -->
+  </div>
 
   <script type="module" src="./src/components/global/GlobalElement.ts"></script>
   <global-element></global-element>
 
-  <div class="innerBody">
-    <main data-spa="container" data-spa-namespace="entry">
-
-      <script type="module">
-
-        import { changeUrl } from './src/lib/core.ts';
-        await import('/index.ts');
-        changeUrl('/src/logo.html');
-
-      </script>
-
-    </main>
-  </div>
-
 </body>
+
+<script type="module">
+
+  import { changeUrl } from './src/lib/core.ts';
+  await import('/index.ts');
+  changeUrl('/src/logo.html');
+
+</script>
 
 </html>

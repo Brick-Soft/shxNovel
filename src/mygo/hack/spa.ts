@@ -19,9 +19,6 @@ barba.hooks.afterLeave((data) => {
         // fix for <style>
         style.remove();
     }
-
-    // fix for <link>
-    data.current.container.remove();
 });
 
 barba.hooks.beforeEnter((data) => {
@@ -30,6 +27,7 @@ barba.hooks.beforeEnter((data) => {
     const doc = parser.parseFromString(htmlString, 'text/html');
 
     // FOUC (Flash of unstyled content)
+    // @ts-ignore
     data.next.container.style.opacity = 0;
 
     // [clear] head
@@ -115,6 +113,9 @@ barba.hooks.beforeEnter((data) => {
         one.className = myHackClassName;
         fragment.appendChild(one);
     }
+
+    // fix for <link>
+    data.current.container.remove();
 
     // [finish] inejction
     document.head.appendChild(fragment);
